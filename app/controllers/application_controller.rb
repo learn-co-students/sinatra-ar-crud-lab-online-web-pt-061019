@@ -44,13 +44,12 @@ class ApplicationController < Sinatra::Base
     # controller action will find the instance of the model to update, using the id from params, update and save that instance.
     # binding.pry
     @article = Article.find(params[:id])
-    @article.update(params[:article])
+    @article.update(title: params[:title], content: params[:content])
     # article.title = params[:title]
     # article.content = params[:content]
     # article.save
 
-    redirect to "/articles/#{@article.id}"
-    # binding.pry   
+    redirect to "/articles/#{@article.id}" 
   end
 
   delete '/articles/:id' do
