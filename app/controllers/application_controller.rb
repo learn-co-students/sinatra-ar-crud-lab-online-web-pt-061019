@@ -18,7 +18,11 @@ class ApplicationController < Sinatra::Base
 
   post '/articles' do
     Article.create(params)
-    redirect '/articles/:id'
+    
+    id = Article.last.id
+    redirect "/articles/#{id}"
+    binding.pry
+    
   end
 
   get '/articles' do
@@ -49,7 +53,7 @@ class ApplicationController < Sinatra::Base
     redirect "/articles/#{id}"
   end
 
-  post '/articles/:id/delete' do
+  delete '/articles/:id/delete' do
     @article = Article.find(params["id"])
     @article.destroy
 
