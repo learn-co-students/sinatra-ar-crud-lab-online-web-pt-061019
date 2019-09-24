@@ -1,5 +1,5 @@
 require_relative '../../config/environment'
-
+require 'pry'
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -15,7 +15,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/articles' do
-    @article = Article.create(params)
+    @article = Article.create(params[:article])
     redirect "/articles/#{@article.id}"
   end
 
@@ -30,19 +30,20 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/articles/:id/edit' do
+    
     @article = Article.find(params[:id])
     erb :edit
   end
 
   patch '/articles/:id' do
-    @article = Article.find_by_id(params[:id])
-    @article.update(params[:title])
-    @article.update(params[:content])
+    @article = Article.find(params[:id])
+    @article.update(params[article])
+    @article.save
     redirect "/articles/#{@article.id}"
   end
 
   delete '/articles/:id' do
-    @article = Article.find_by_id(params[:id])
+    @article = Article.find(params[:id])
     @article.destroy
     erb :index
   end
