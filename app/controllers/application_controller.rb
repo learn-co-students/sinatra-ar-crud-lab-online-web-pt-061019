@@ -10,4 +10,17 @@ class ApplicationController < Sinatra::Base
 
   get '/' do
   end
+
+  get '/articles/new' do
+    erb :new
+  end
+
+  post '/article' do
+    @article = Article.new(params[:article])
+    params[:article][:magazines].each do |details|
+      Magazine.new(details)
+    end
+    @magazines = Magazine.all
+    erb :article
+  end
 end
