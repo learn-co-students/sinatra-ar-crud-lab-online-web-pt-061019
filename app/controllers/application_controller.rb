@@ -15,12 +15,40 @@ class ApplicationController < Sinatra::Base
     erb :new
   end
 
-  post '/article' do
-    @article = Article.new(params[:article])
-    params[:article][:magazines].each do |details|
-      Magazine.new(details)
-    end
-    @magazines = Magazine.all
-    erb :article
+  post '/articles' do
+    Article.create(params)
+    redirect '/articles/:id'
+  end
+
+  get '/articles' do
+    @articles = Article.all
+    erb :index
+  end
+
+  get '/articles/:id' do
+    @article = Article.find(params["id"])
+    erb :show
+  end
+
+  get '/articles/:id/edit' do
+    @article = Article.find(params["id"])
+    erb :edit
+  end
+
+  patch '/articles/:id' do
+    id = params["id"]
+    new_params = {}
+    old_article = Article.find(id)
+    new_params[:name] = params["name"]
+    new_params[:content] = params["content"]
+    old_article.update(new_params)
+
+    redirect '/articles/#{id}'
+  end
+
+  delete '/articles/:id/delete' do
+    @article = Article.find(params["id"])
+    @article.destroy
+    redirect '/index'
   end
 end
