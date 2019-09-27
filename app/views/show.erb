@@ -1,5 +1,5 @@
-<h1><%= article.name %></h1>
+<h1><%= article.title %></h1>
 <p><%= article.content %></p><br>
-<form action="articles/<%= article.id %>/delete">
-<input type="hidden" id="hidden" name="_method" value="delete">
-<input type="submit" value="delete">
+<form action="articles/<%= article.id %>" method="POST">
+<input type="hidden" name="_method" value="PATCH">
+<input type="submit" name="delete" value="delete">
